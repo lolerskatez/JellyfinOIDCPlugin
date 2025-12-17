@@ -5,10 +5,10 @@
   "targetAbi": "10.9.0.0",
   "assembly": "JellyfinOIDCPlugin.dll",
   "id": "jelly-oidc-auth",
-  "author": "Your Name",
+  "author": "lolerskatez",
   "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
   "category": "Authentication",
-  "owner": "your-github-username",
+  "owner": "lolerskatez",
   "premium": false,
   "adult": false,
   "beta": false,
@@ -28,8 +28,8 @@
       ]
     }
   ],
-  "imageUrl": "https://raw.githubusercontent.com/your-github-username/jellyfin-oidc-plugin/main/icon.png",
-  "repositoryUrl": "https://github.com/your-github-username/jellyfin-oidc-plugin",
-  "bugs": "https://github.com/your-github-username/jellyfin-oidc-plugin/issues",
-  "documentation": "https://github.com/your-github-username/jellyfin-oidc-plugin/blob/main/SETUP_GUIDE.md"
+  "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/main/icon.png",
+  "repositoryUrl": "https://github.com/lolerskatez/JellyfinOIDCPlugin",
+  "bugs": "https://github.com/lolerskatez/JellyfinOIDCPlugin/issues",
+  "documentation": "https://github.com/lolerskatez/JellyfinOIDCPlugin/blob/main/SETUP_GUIDE.md"
 }
