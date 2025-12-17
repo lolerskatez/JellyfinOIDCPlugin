@@ -4,6 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>JellyfinOIDCPlugin</RootNamespace>
     <LangVersion>latest</LangVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
