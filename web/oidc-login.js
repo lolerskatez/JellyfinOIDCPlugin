@@ -1,6 +1,7 @@
 /**
  * Jellyfin OIDC Login Script
  * Adds SSO login button to the login page
+ * This runs globally on all pages to inject the button when the login form appears
  */
 
 (function () {
@@ -8,22 +9,45 @@
 
     const PLUGIN_ID = 'a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6';
     const OIDC_START_URL = '/api/oidc/start';
+    let injectionAttempts = 0;
+    const MAX_ATTEMPTS = 30; // Try for ~15 seconds
 
     /**
      * Initialize SSO login button
      */
     function initializeSSOButton() {
-        // Wait for the login form to be available
-        const checkInterval = setInterval(() => {
-            const loginForm = document.querySelector('form') || document.querySelector('[data-role="form"]');
-            if (loginForm) {
-                clearInterval(checkInterval);
-                addSSOButton(loginForm);
-            }
-        }, 100);
+        if (injectionAttempts >= MAX_ATTEMPTS) {
+            console.log('[OIDC] Max injection attempts reached');
+            return;
+        }
 
-        // Timeout after 10 seconds
-        setTimeout(() => clearInterval(checkInterval), 10000);
+        injectionAttempts++;
+        console.log(`[OIDC] Injection attempt ${injectionAttempts}/${MAX_ATTEMPTS}`);
+
+        // Look for login container - try multiple selectors
+        const loginContainers = [
+            document.querySelector('[data-type="login"]'),
+            document.querySelector('.login-page'),
+            document.querySelector('[class*="login"]'),
+            document.querySelector('form'),
+            document.querySelector('[data-role="form"]')
+        ];
+
+        let loginForm = null;
+        for (const container of loginContainers) {
+            if (container && !document.querySelector('.oidc-sso-button')) {
+                loginForm = container;
+                break;
+            }
+        }
+
+        if (loginForm) {
+            console.log('[OIDC] Login form found, adding SSO button');
+            addSSOButton(loginForm);
+        } else {
+            // Retry after a short delay
+            setTimeout(initializeSSOButton, 500);
+        }
     }
 
     /**
@@ -180,4 +204,23 @@
 
     // Start initialization
     init();
+
+    // Also watch for dynamic page changes
+    const observer = new MutationObserver(() => {
+        if (!document.querySelector('.oidc-sso-button')) {
+            const form = document.querySelector('form');
+            if (form) {
+                initializeSSOButton();
+            }
+        }
+    });
+
+    // Start observing when DOM is ready
+    if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true, depth: 3 });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            observer.observe(document.body, { childList: true, subtree: true, depth: 3 });
+        });
+    }
 })();

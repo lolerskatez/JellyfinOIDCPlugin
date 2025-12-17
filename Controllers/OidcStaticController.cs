@@ -43,6 +43,31 @@ public class OidcStaticController : ControllerBase
         }
     }
 
+    [HttpGet("loader.js")]
+    public IActionResult GetLoader()
+    {
+        try
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("JellyfinOIDCPlugin.web.oidc-loader.js");
+            if (stream == null)
+            {
+                _logger.LogWarning("Loader script resource not found");
+                return NotFound();
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+            
+            return Content(content, "application/javascript");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error serving loader script");
+            return StatusCode(500, "Error loading loader script");
+        }
+    }
+
     [HttpGet("config")]
     public IActionResult GetConfigurationPage()
     {
