@@ -1,35 +1,30 @@
-{
-  "name": "OIDC Authentication",
-  "description": "OpenID Connect (OIDC) authentication provider for Jellyfin with SSO support, automatic user creation, and role-based access control",
-  "version": "1.0.0",
-  "targetAbi": "10.9.0.0",
-  "assembly": "JellyfinOIDCPlugin.dll",
-  "id": "jelly-oidc-auth",
-  "author": "lolerskatez",
-  "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
-  "category": "Authentication",
-  "owner": "lolerskatez",
-  "premium": false,
-  "adult": false,
-  "beta": false,
-  "changelog": [
-    {
-      "version": "1.0.0",
-      "date": "2025-12-17",
-      "changes": [
-        "Initial release of OIDC Authentication plugin",
-        "Full OpenID Connect/OAuth2 support",
-        "Automatic user creation from OIDC claims",
-        "Email-based user linking",
-        "Role-based access control (Admin, Power User, User)",
-        "Web-based configuration UI",
-        "Automatic SSO button on login page",
-        "Comprehensive documentation and setup guides"
-      ]
-    }
-  ],
-  "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/main/icon.png",
-  "repositoryUrl": "https://github.com/lolerskatez/JellyfinOIDCPlugin",
-  "bugs": "https://github.com/lolerskatez/JellyfinOIDCPlugin/issues",
-  "documentation": "https://github.com/lolerskatez/JellyfinOIDCPlugin/blob/main/SETUP_GUIDE.md"
-}
+[
+  {
+    "name": "OIDC Authentication",
+    "description": "OpenID Connect (OIDC) authentication provider for Jellyfin with SSO support, automatic user creation, and role-based access control",
+    "version": "1.0.0",
+    "targetAbi": "10.9.0.0",
+    "assembly": "JellyfinOIDCPlugin.dll",
+    "id": "jellyfin-oidc-auth",
+    "author": "lolerskatez",
+    "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
+    "category": "Authentication",
+    "owner": "lolerskatez",
+    "premium": false,
+    "adult": false,
+    "beta": false,
+    "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/icon.png",
+    "repositoryUrl": "https://github.com/lolerskatez/JellyfinOIDCPlugin",
+    "bugs": "https://github.com/lolerskatez/JellyfinOIDCPlugin/issues",
+    "documentation": "https://github.com/lolerskatez/JellyfinOIDCPlugin/blob/master/SETUP_GUIDE.md",
+    "downloads": [
+      {
+        "name": "JellyfinOIDCPlugin.dll",
+        "url": "https://github.com/lolerskatez/JellyfinOIDCPlugin/releases/download/v1.0.0/JellyfinOIDCPlugin.dll",
+        "targetAbi": "10.9.0.0",
+        "version": "1.0.0",
+        "changelog": "Initial release with full OIDC support, SSO button, admin configuration UI, automatic user creation, email linking, and role-based access control"
+      }
+    ]
+  }
+]
