@@ -43,3 +43,45 @@ public class OidcStaticController : ControllerBase
         }
     }
 }
+
+[ApiController]
+[Route("web")]
+public class OidcConfigPageController : ControllerBase
+{
+    private readonly ILogger<OidcConfigPageController> _logger;
+
+    public OidcConfigPageController(ILogger<OidcConfigPageController> logger)
+    {
+        _logger = logger;
+    }
+
+    [HttpGet("configurationpage")]
+    public IActionResult GetConfigurationPage([FromQuery] string name)
+    {
+        if (name != "OIDC Configuration")
+        {
+            return NotFound();
+        }
+
+        try
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("JellyfinOIDCPlugin.web.configurationpage.html");
+            if (stream == null)
+            {
+                _logger.LogWarning("Configuration page resource not found");
+                return NotFound();
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+            
+            return Content(content, "text/html");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error serving configuration page");
+            return StatusCode(500, "Error loading configuration page");
+        }
+    }
+}
