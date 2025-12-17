@@ -1,60 +1,114 @@
-<div id="oidcConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-controller="__plugin/OIDC Authentication.js">
-    <div data-role="content">
-        <div class="content-primary">
-        <form id="oidcConfigForm">
-            <div class="verticalSection">
-                <h2>OpenID Connect (OIDC) Configuration</h2>
-                <p>Configure Single Sign-On settings for Jellyfin authentication.</p>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>OIDC Authentication</title>
+</head>
+<body>
+    <div data-role="page" class="page type-interior pluginConfigurationPage oidcConfigurationPage">
+        <div data-role="content">
+            <div class="content-primary">
+                <form class="oidcConfigurationForm">
+                    <div class="verticalSection verticalSection-extrabottompadding">
+                        <div class="sectionTitleContainer flex align-items-center">
+                            <h2 class="sectionTitle">OIDC Authentication Settings</h2>
+                        </div>
+                        <p><i>Note:</i> Making changes to this configuration requires a restart of Jellyfin.</p>
+
+                        <div class="verticalSection" is="emby-collapse" title="OpenID Connect Configuration">
+                            <div class="collapseContent">
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtOidEndpoint" label="OIDC Authority" />
+                                    <div class="fieldDescription">The base URL of your OIDC provider (e.g., https://auth.example.com)</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtOidClientId" label="Client ID" />
+                                    <div class="fieldDescription">The OIDC application client ID</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="password" id="txtOidSecret" label="Client Secret" />
+                                    <div class="fieldDescription">The OIDC application client secret</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtOidScopes" label="OAuth Scopes (space-separated)" />
+                                    <div class="fieldDescription">Default: openid profile email</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtRoleClaim" label="Role Claim Name" />
+                                    <div class="fieldDescription">The OIDC claim containing user roles/groups (e.g., 'groups')</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button is="emby-button" type="submit" data-theme="b" class="raised button-submit block">
+                                <span>${Save}</span>
+                            </button>
+                            <button is="emby-button" type="button" class="raised button-cancel block btnCancel" onclick="history.back();">
+                                <span>${ButtonCancel}</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div class="verticalSection">
-                <div class="sectionTitleContainer">
-                    <h2 class="sectionTitle">Basic Settings</h2>
-                </div>
-
-                <div class="inputContainer">
-                    <label class="inputLabel inputLabelUnfocused" for="txtOidEndpoint">OIDC Authority</label>
-                    <input is="emby-input" type="text" id="txtOidEndpoint" name="oidEndpoint" label="OIDC Authority" />
-                    <div class="fieldDescription">The base URL of your OIDC provider (e.g., https://auth.example.com)</div>
-                </div>
-
-                <div class="inputContainer">
-                    <label class="inputLabel inputLabelUnfocused" for="txtOidClientId">Client ID</label>
-                    <input is="emby-input" type="text" id="txtOidClientId" name="oidClientId" label="Client ID" />
-                    <div class="fieldDescription">The OIDC application client ID</div>
-                </div>
-
-                <div class="inputContainer">
-                    <label class="inputLabel inputLabelUnfocused" for="txtOidSecret">Client Secret</label>
-                    <input is="emby-input" type="password" id="txtOidSecret" name="oidSecret" label="Client Secret" />
-                    <div class="fieldDescription">The OIDC application client secret</div>
-                </div>
-            </div>
-
-            <div class="verticalSection">
-                <div class="sectionTitleContainer">
-                    <h2 class="sectionTitle">Scopes & Claims</h2>
-                </div>
-
-                <div class="inputContainer">
-                    <label class="inputLabel inputLabelUnfocused" for="txtOidScopes">OAuth Scopes (one per line)</label>
-                    <textarea is="emby-input" id="txtOidScopes" name="oidScopes" rows="4"></textarea>
-                    <div class="fieldDescription">Default: openid, profile, email, groups</div>
-                </div>
-
-                <div class="inputContainer">
-                    <label class="inputLabel inputLabelUnfocused" for="txtRoleClaim">Role Claim Name</label>
-                    <input is="emby-input" type="text" id="txtRoleClaim" name="roleClaim" label="Role Claim" />
-                    <div class="fieldDescription">The OIDC claim containing user roles/groups (e.g., 'groups')</div>
-                </div>
-            </div>
-
-            <div>
-                <button is="emby-button" type="submit" class="raised button-submit block">
-                    <span>Save</span>
-                </button>
-            </div>
-        </form>
         </div>
+
+        <script type="text/javascript">
+            var OidcConfigurationPage = {
+                pluginUniqueId: "7f8b8d9e-1234-5678-90ab-cdef12345678",
+
+                txtOidEndpoint: document.querySelector("#txtOidEndpoint"),
+                txtOidClientId: document.querySelector("#txtOidClientId"),
+                txtOidSecret: document.querySelector("#txtOidSecret"),
+                txtOidScopes: document.querySelector("#txtOidScopes"),
+                txtRoleClaim: document.querySelector("#txtRoleClaim")
+            };
+
+            document.querySelector('.oidcConfigurationPage').addEventListener("pageshow", function () {
+                Dashboard.showLoadingMsg();
+
+                window.ApiClient.getPluginConfiguration(OidcConfigurationPage.pluginUniqueId).then(function (config) {
+                    OidcConfigurationPage.txtOidEndpoint.value = config.OidEndpoint || '';
+                    OidcConfigurationPage.txtOidClientId.value = config.OidClientId || '';
+                    OidcConfigurationPage.txtOidSecret.value = config.OidSecret || '';
+                    OidcConfigurationPage.txtRoleClaim.value = config.RoleClaim || 'groups';
+
+                    if (config.OidScopes && Array.isArray(config.OidScopes)) {
+                        OidcConfigurationPage.txtOidScopes.value = config.OidScopes.join(' ');
+                    } else {
+                        OidcConfigurationPage.txtOidScopes.value = 'openid profile email';
+                    }
+
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+
+            document.querySelector(".oidcConfigurationForm").addEventListener("submit", function(e){
+                e.preventDefault();
+                Dashboard.showLoadingMsg();
+
+                const scopes = OidcConfigurationPage.txtOidScopes.value
+                    .split(/\s+/)
+                    .map(s => s.trim())
+                    .filter(s => s.length > 0);
+
+                const config = {
+                    OidEndpoint: OidcConfigurationPage.txtOidEndpoint.value,
+                    OidClientId: OidcConfigurationPage.txtOidClientId.value,
+                    OidSecret: OidcConfigurationPage.txtOidSecret.value,
+                    OidScopes: scopes.length > 0 ? scopes : ['openid', 'profile', 'email'],
+                    RoleClaim: OidcConfigurationPage.txtRoleClaim.value || 'groups'
+                };
+
+                window.ApiClient.updatePluginConfiguration(OidcConfigurationPage.pluginUniqueId, config).then(Dashboard.processPluginConfigurationUpdateResult);
+
+                // Disable default form submission
+                return false;
+            });
+        </script>
     </div>
-</div>
+</body>
+</html>

@@ -32,11 +32,6 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             {
                 Name = Name,
                 EmbeddedResourcePath = "JellyfinOIDCPlugin.web.configurationpage.html"
-            },
-            new PluginPageInfo
-            {
-                Name = Name + ".js",
-                EmbeddedResourcePath = "JellyfinOIDCPlugin.web.oidc-config.js"
             }
         };
     }
