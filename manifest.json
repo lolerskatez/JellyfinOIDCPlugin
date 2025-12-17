@@ -6,7 +6,7 @@
     "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
     "owner": "lolerskatez",
     "category": "Authentication",
-    "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/icon.png",
+    "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/icon.svg",
     "versions": [
       {
         "version": "1.0.0.0",
