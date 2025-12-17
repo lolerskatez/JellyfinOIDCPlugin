@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "JellyfinOIDCPlugin/1.0.0": {
+      "JellyfinOIDCPlugin.v2/1.0.0": {
         "dependencies": {
           "IdentityModel.OidcClient": "5.2.1",
           "Jellyfin.Common": "10.11.3",
@@ -16,7 +16,7 @@
           "Jellyfin.Model": "10.11.3"
         },
         "runtime": {
-          "JellyfinOIDCPlugin.dll": {}
+          "JellyfinOIDCPlugin.v2.dll": {}
         }
       },
       "BitFaster.Caching/2.5.4": {},
@@ -243,7 +243,7 @@
     }
   },
   "libraries": {
-    "JellyfinOIDCPlugin/1.0.0": {
+    "JellyfinOIDCPlugin.v2/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

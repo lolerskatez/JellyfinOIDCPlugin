@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>JellyfinOIDCPlugin.v2</AssemblyName>
     <RootNamespace>JellyfinOIDCPlugin</RootNamespace>
     <LangVersion>latest</LangVersion>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
