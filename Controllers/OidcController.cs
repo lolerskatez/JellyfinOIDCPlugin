@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 
 namespace JellyfinOIDCPlugin.Controllers;
 
+#nullable enable
+
 [ApiController]
 [Route("api/oidc")]
 public class OidcController : ControllerBase
@@ -156,8 +158,126 @@ public class OidcController : ControllerBase
         }
     }
 
+    [HttpPost("token")]
+    public async Task<IActionResult> ExchangeToken([FromBody] TokenExchangeRequest request)
+    {
+        var config = Plugin.Instance?.Configuration;
+        if (config == null)
+        {
+            _logger.LogError("Plugin not initialized");
+            return BadRequest("Plugin not initialized");
+        }
+
+        if (string.IsNullOrEmpty(request?.AccessToken))
+        {
+            _logger.LogWarning("No access token provided");
+            return BadRequest("Access token is required");
+        }
+
+        try
+        {
+            _logger.LogInformation("Processing token exchange request");
+
+            // Validate the token with the OIDC provider using UserInfo endpoint
+            var options = new OidcClientOptions
+            {
+                Authority = config.OidEndpoint?.Trim(),
+                ClientId = config.OidClientId?.Trim(),
+                ClientSecret = config.OidSecret?.Trim(),
+                Scope = string.Join(" ", config.OidScopes)
+            };
+
+            var client = new OidcClient(options);
+            
+            // Use the access token to get user info
+            var userInfoResult = await client.GetUserInfoAsync(request.AccessToken).ConfigureAwait(false);
+            
+            if (userInfoResult.IsError)
+            {
+                _logger.LogError("Failed to get user info: {Error}", userInfoResult.Error);
+                return Unauthorized("Invalid access token");
+            }
+
+            // Extract email/username from user info
+            var email = userInfoResult.Claims.FirstOrDefault(c => c.Type == "email")?.Value ??
+                       userInfoResult.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value ??
+                       userInfoResult.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                _logger.LogWarning("No email/username found in user info");
+                return BadRequest("No email/username found in token");
+            }
+
+            // Get or create user
+            var user = _userManager.GetUserByName(email);
+            if (user == null)
+            {
+                if (!config.AutoCreateUser)
+                {
+                    _logger.LogWarning("User {Email} not found and auto-create is disabled", email);
+                    return Unauthorized("User does not exist and auto-creation is disabled");
+                }
+
+                _logger.LogInformation("Creating new user from OIDC token: {Email}", email);
+                user = await _userManager.CreateUserAsync(email).ConfigureAwait(false);
+            }
+
+            // Update user authentication provider
+            user.AuthenticationProviderId = "OIDC";
+
+            // Get roles from claims
+            var rolesClaimName = config.RoleClaim ?? "groups";
+            var rolesClaimValue = userInfoResult.Claims.FirstOrDefault(c => c.Type == rolesClaimName)?.Value;
+            var roles = string.IsNullOrEmpty(rolesClaimValue)
+                ? Array.Empty<string>()
+                : rolesClaimValue.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Set permissions based on groups
+            var isAdmin = roles.Any(r => r.Equals("admin", StringComparison.OrdinalIgnoreCase));
+            var isPowerUser = roles.Any(r => r.Equals("Power User", StringComparison.OrdinalIgnoreCase)) && !isAdmin;
+
+            _logger.LogInformation("Token exchange for {Email} - Admin: {IsAdmin}, PowerUser: {IsPowerUser}", email, isAdmin, isPowerUser);
+
+            // Update user in database
+            await _userManager.UpdateUserAsync(user).ConfigureAwait(false);
+
+            // Return success with user info
+            return Ok(new TokenExchangeResponse
+            {
+                Success = true,
+                UserId = user.Id.ToString(),
+                Username = user.Username,
+                Email = email,
+                IsAdmin = isAdmin,
+                Message = "User authenticated successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Token exchange error");
+            return StatusCode(500, $"Token exchange failed: {ex.Message}");
+        }
+    }
+
     private string GetRedirectUri()
     {
         return $"{Request.Scheme}://{Request.Host}/api/oidc/callback";
     }
+}
+
+public class TokenExchangeRequest
+{
+    public string? AccessToken { get; set; }
+    public string? IdToken { get; set; }
+}
+
+public class TokenExchangeResponse
+{
+    public bool Success { get; set; }
+    public string? UserId { get; set; }
+    public string? Username { get; set; }
+    public string? Email { get; set; }
+    public bool IsAdmin { get; set; }
+    public string? Message { get; set; }
 }
