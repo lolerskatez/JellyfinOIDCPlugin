@@ -42,4 +42,29 @@ public class OidcStaticController : ControllerBase
             return StatusCode(500, "Error loading login script");
         }
     }
+
+    [HttpGet("config")]
+    public IActionResult GetConfigurationPage()
+    {
+        try
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("JellyfinOIDCPlugin.web.configurationpage.html");
+            if (stream == null)
+            {
+                _logger.LogWarning("Configuration page resource not found");
+                return NotFound("Configuration page resource not found");
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+            
+            return Content(content, "text/html");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error serving configuration page");
+            return StatusCode(500, $"Error loading configuration page: {ex.Message}");
+        }
+    }
 }
