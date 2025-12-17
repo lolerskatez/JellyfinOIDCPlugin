@@ -20,7 +20,7 @@
     "downloads": [
       {
         "name": "JellyfinOIDCPlugin.dll",
-        "url": "https://github.com/lolerskatez/JellyfinOIDCPlugin/releases/download/v1.0.0/JellyfinOIDCPlugin.dll",
+        "url": "https://github.com/lolerskatez/JellyfinOIDCPlugin/raw/master/bin/Release/net8.0/JellyfinOIDCPlugin.dll",
         "targetAbi": "10.9.0.0",
         "version": "1.0.0",
         "changelog": "Initial release with full OIDC support, SSO button, admin configuration UI, automatic user creation, email linking, and role-based access control"
