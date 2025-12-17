@@ -68,6 +68,69 @@ public class OidcStaticController : ControllerBase
         }
     }
 
+    [HttpGet("inject")]
+    public IActionResult GetInject()
+    {
+        try
+        {
+            // This endpoint serves an auto-executing inline bootstrap script
+            // that will inject the OIDC login button on any page that loads it
+            var script = @"
+(function() {
+    console.log('[OIDC Plugin] Bootstrap inject started');
+    
+    // Load oidc-loader.js dynamically
+    const loaderScript = document.createElement('script');
+    loaderScript.src = '/api/oidc/loader.js';
+    loaderScript.type = 'application/javascript';
+    loaderScript.onerror = function() {
+        console.error('[OIDC Plugin] Failed to load loader.js');
+    };
+    loaderScript.onload = function() {
+        console.log('[OIDC Plugin] Loader.js loaded successfully');
+    };
+    
+    // Append to head or body
+    const target = document.head || document.documentElement;
+    target.appendChild(loaderScript);
+    
+    console.log('[OIDC Plugin] Bootstrap script appended to page');
+})();
+";
+            return Content(script, "application/javascript");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error serving inject script");
+            return StatusCode(500, "Error loading inject script");
+        }
+    }
+
+    [HttpGet("global.js")]
+    public IActionResult GetGlobalInjector()
+    {
+        try
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            using var stream = assembly.GetManifestResourceStream("JellyfinOIDCPlugin.web.oidc-global-injector.js");
+            if (stream == null)
+            {
+                _logger.LogWarning("Global injector resource not found");
+                return NotFound();
+            }
+
+            using var reader = new StreamReader(stream);
+            var content = reader.ReadToEnd();
+            
+            return Content(content, "application/javascript");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error serving global injector");
+            return StatusCode(500, "Error loading global injector");
+        }
+    }
+
     [HttpGet("config")]
     public IActionResult GetConfigurationPage()
     {
