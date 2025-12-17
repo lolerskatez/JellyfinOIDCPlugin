@@ -3,7 +3,7 @@
     "name": "OIDC Authentication",
     "description": "OpenID Connect (OIDC) authentication provider for Jellyfin with SSO support, automatic user creation, and role-based access control",
     "version": "1.0.0",
-    "targetAbi": "10.9.0.0",
+    "targetAbi": "10.11.3.0",
     "assembly": "JellyfinOIDCPlugin.dll",
     "id": "jellyfin-oidc-auth",
     "author": "lolerskatez",
@@ -21,7 +21,7 @@
       {
         "name": "JellyfinOIDCPlugin.dll",
         "url": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/bin/Release/net8.0/JellyfinOIDCPlugin.dll",
-        "targetAbi": "10.9.0.0",
+        "targetAbi": "10.11.3.0",
         "version": "1.0.0",
         "changelog": "Initial release with full OIDC support, SSO button, admin configuration UI, automatic user creation, email linking, and role-based access control"
       }
