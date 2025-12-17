@@ -1,6 +1,6 @@
 [
   {
-    "guid": "7f8b8d9e-1234-5678-90ab-cdef12345678",
+    "guid": "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     "name": "OIDC Authentication",
     "description": "OpenID Connect (OIDC) authentication provider for Jellyfin with SSO support, automatic user creation, and role-based access control",
     "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
@@ -9,11 +9,11 @@
     "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/icon.svg",
     "versions": [
       {
-        "version": "1.0.0.0",
+        "version": "1.0.1.0",
         "changelog": "Jellyfin 10.11.3 compatible release with .NET 9 support, OIDC SSO authentication, automatic user creation, email linking, and role-based access control",
         "targetAbi": "10.11.3.0",
-        "sourceUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/OIDC_Authentication_1.0.0.0.zip",
-        "checksum": "292B32BD3DF22BF9D8336E542B40D759",
+        "sourceUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/OIDC_Authentication_1.0.1.0.zip",
+        "checksum": "13760D1AF0F29BFEEEF06A335487BA4E",
         "timestamp": "2025-12-17T04:00:00Z"
       }
     ]

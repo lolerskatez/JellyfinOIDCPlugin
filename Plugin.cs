@@ -20,7 +20,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 
     public override string Name => "OIDC Authentication";
 
-    public override Guid Id => Guid.Parse("7f8b8d9e-1234-5678-90ab-cdef12345678");
+    public override Guid Id => Guid.Parse("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
 
     public static Plugin? Instance { get; private set; }
 
