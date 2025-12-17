@@ -6,7 +6,7 @@
 (function () {
     'use strict';
 
-    const PLUGIN_ID = '7f8b8d9e-1234-5678-90ab-cdef12345678';
+    const PLUGIN_ID = 'a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6';
     const OIDC_START_URL = '/api/oidc/start';
 
     /**

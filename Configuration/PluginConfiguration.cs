@@ -1,3 +1,5 @@
+#nullable enable
+
 using MediaBrowser.Model.Plugins;
 
 namespace JellyfinOIDCPlugin.Configuration;
@@ -22,4 +24,14 @@ public class PluginConfiguration : BasePluginConfiguration
     public string[] OidScopes { get; set; }
 
     public string RoleClaim { get; set; }
+
+    public string? RedirectUri { get; set; }
+
+    public string? LogoutUri { get; set; }
+
+    public string? CertificatePath { get; set; }
+
+    public bool AutoCreateUser { get; set; } = true;
+
+    public bool AllowRememberMe { get; set; } = true;
 }

@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>OIDC Authentication</title>
+    <script src="/api/oidc/login.js"></script>
 </head>
 <body>
     <div data-role="page" class="page type-interior pluginConfigurationPage oidcConfigurationPage">
@@ -40,6 +41,31 @@
                                     <input is="emby-input" type="text" id="txtRoleClaim" label="Role Claim Name" />
                                     <div class="fieldDescription">The OIDC claim containing user roles/groups (e.g., 'groups')</div>
                                 </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtRedirectUri" label="Redirect URI" />
+                                    <div class="fieldDescription">The callback URL (auto-generated if blank): http://JELLYFIN_URL/auth/oidc/callback</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtLogoutUri" label="Logout URI (Optional)" />
+                                    <div class="fieldDescription">URL to redirect to after logout (leave blank to stay on login page)</div>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-input" type="text" id="txtCertificatePath" label="Certificate Path (Optional)" />
+                                    <div class="fieldDescription">Path to certificate for OIDC validation (if needed)</div>
+                                </div>
+
+                                <div class="inputContainer" style="margin-top: 20px;">
+                                    <input is="emby-checkbox" id="chkAutoCreateUser" type="checkbox" />
+                                    <label for="chkAutoCreateUser">Automatically create users from OIDC claims</label>
+                                </div>
+
+                                <div class="inputContainer">
+                                    <input is="emby-checkbox" id="chkAllowRememberMe" type="checkbox" />
+                                    <label for="chkAllowRememberMe">Allow "Remember Me" option on login</label>
+                                </div>
                             </div>
                         </div>
 
@@ -64,7 +90,12 @@
                 txtOidClientId: document.querySelector("#txtOidClientId"),
                 txtOidSecret: document.querySelector("#txtOidSecret"),
                 txtOidScopes: document.querySelector("#txtOidScopes"),
-                txtRoleClaim: document.querySelector("#txtRoleClaim")
+                txtRoleClaim: document.querySelector("#txtRoleClaim"),
+                txtRedirectUri: document.querySelector("#txtRedirectUri"),
+                txtLogoutUri: document.querySelector("#txtLogoutUri"),
+                txtCertificatePath: document.querySelector("#txtCertificatePath"),
+                chkAutoCreateUser: document.querySelector("#chkAutoCreateUser"),
+                chkAllowRememberMe: document.querySelector("#chkAllowRememberMe")
             };
 
             document.querySelector('.oidcConfigurationPage').addEventListener("pageshow", function () {
@@ -75,6 +106,11 @@
                     OidcConfigurationPage.txtOidClientId.value = config.OidClientId || '';
                     OidcConfigurationPage.txtOidSecret.value = config.OidSecret || '';
                     OidcConfigurationPage.txtRoleClaim.value = config.RoleClaim || 'groups';
+                    OidcConfigurationPage.txtRedirectUri.value = config.RedirectUri || '';
+                    OidcConfigurationPage.txtLogoutUri.value = config.LogoutUri || '';
+                    OidcConfigurationPage.txtCertificatePath.value = config.CertificatePath || '';
+                    OidcConfigurationPage.chkAutoCreateUser.checked = config.AutoCreateUser !== false;
+                    OidcConfigurationPage.chkAllowRememberMe.checked = config.AllowRememberMe !== false;
 
                     if (config.OidScopes && Array.isArray(config.OidScopes)) {
                         OidcConfigurationPage.txtOidScopes.value = config.OidScopes.join(' ');
@@ -100,7 +136,12 @@
                     OidClientId: OidcConfigurationPage.txtOidClientId.value,
                     OidSecret: OidcConfigurationPage.txtOidSecret.value,
                     OidScopes: scopes.length > 0 ? scopes : ['openid', 'profile', 'email'],
-                    RoleClaim: OidcConfigurationPage.txtRoleClaim.value || 'groups'
+                    RoleClaim: OidcConfigurationPage.txtRoleClaim.value || 'groups',
+                    RedirectUri: OidcConfigurationPage.txtRedirectUri.value || null,
+                    LogoutUri: OidcConfigurationPage.txtLogoutUri.value || null,
+                    CertificatePath: OidcConfigurationPage.txtCertificatePath.value || null,
+                    AutoCreateUser: OidcConfigurationPage.chkAutoCreateUser.checked,
+                    AllowRememberMe: OidcConfigurationPage.chkAllowRememberMe.checked
                 };
 
                 window.ApiClient.updatePluginConfiguration(OidcConfigurationPage.pluginUniqueId, config).then(Dashboard.processPluginConfigurationUpdateResult);
