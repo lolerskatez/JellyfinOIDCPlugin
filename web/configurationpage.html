@@ -1,5 +1,6 @@
-<div id="oidcConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
-    <div class="content-primary">
+<div id="oidcConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-controller="__plugin/OIDC Authentication.js">
+    <div data-role="content">
+        <div class="content-primary">
         <form id="oidcConfigForm">
             <div class="verticalSection">
                 <h2>OpenID Connect (OIDC) Configuration</h2>
@@ -54,51 +55,6 @@
                 </button>
             </div>
         </form>
+        </div>
     </div>
-
-    <script type="text/javascript">
-        (function () {
-            const pluginId = '7f8b8d9e-1234-5678-90ab-cdef12345678';
-            const page = document.querySelector('#oidcConfigPage');
-
-            page.addEventListener('pageshow', function () {
-                Dashboard.showLoadingMsg();
-                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
-                    document.getElementById('txtOidEndpoint').value = config.OidEndpoint || '';
-                    document.getElementById('txtOidClientId').value = config.OidClientId || '';
-                    document.getElementById('txtOidSecret').value = config.OidSecret || '';
-                    document.getElementById('txtRoleClaim').value = config.RoleClaim || 'groups';
-                    
-                    if (config.OidScopes && Array.isArray(config.OidScopes)) {
-                        document.getElementById('txtOidScopes').value = config.OidScopes.join('\n');
-                    }
-                    
-                    Dashboard.hideLoadingMsg();
-                });
-            });
-
-            document.getElementById('oidcConfigForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                Dashboard.showLoadingMsg();
-
-                const scopes = document.getElementById('txtOidScopes').value
-                    .split('\n')
-                    .map(s => s.trim())
-                    .filter(s => s.length > 0);
-
-                const config = {
-                    OidEndpoint: document.getElementById('txtOidEndpoint').value,
-                    OidClientId: document.getElementById('txtOidClientId').value,
-                    OidSecret: document.getElementById('txtOidSecret').value,
-                    OidScopes: scopes.length > 0 ? scopes : ['openid', 'profile', 'email', 'groups'],
-                    RoleClaim: document.getElementById('txtRoleClaim').value || 'groups'
-                };
-
-                ApiClient.updatePluginConfiguration(pluginId, config).then(function () {
-                    Dashboard.hideLoadingMsg();
-                    Dashboard.processPluginConfigurationUpdateResult();
-                });
-            });
-        })();
-    </script>
 </div>

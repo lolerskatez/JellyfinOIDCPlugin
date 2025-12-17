@@ -12,8 +12,8 @@
         "version": "1.0.0.0",
         "changelog": "Jellyfin 10.11.3 compatible release with .NET 9 support, OIDC SSO authentication, automatic user creation, email linking, and role-based access control",
         "targetAbi": "10.11.3.0",
-        "sourceUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/JellyfinOIDCPlugin_1.0.0.0.zip",
-        "checksum": "de03743ba0783d5d7eadb26289c094de",
+        "sourceUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/OIDC_Authentication_1.0.0.0.zip",
+        "checksum": "58CA48810545FD0378C6255BEAD7A3A2",
         "timestamp": "2025-12-17T04:00:00Z"
       }
     ]
