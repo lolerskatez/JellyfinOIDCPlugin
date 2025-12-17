@@ -1,30 +1,19 @@
 [
   {
+    "guid": "7f8b8d9e-1234-5678-90ab-cdef12345678",
     "name": "OIDC Authentication",
     "description": "OpenID Connect (OIDC) authentication provider for Jellyfin with SSO support, automatic user creation, and role-based access control",
-    "version": "1.0.0",
-    "targetAbi": "10.11.3.0",
-    "assembly": "JellyfinOIDCPlugin.dll",
-    "id": "jellyfin-oidc-auth",
-    "guid": "7f8b8d9e-1234-5678-90ab-cdef12345678",
-    "author": "lolerskatez",
     "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
-    "category": "Authentication",
     "owner": "lolerskatez",
-    "premium": false,
-    "adult": false,
-    "beta": false,
+    "category": "Authentication",
     "imageUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/icon.png",
-    "repositoryUrl": "https://github.com/lolerskatez/JellyfinOIDCPlugin",
-    "bugs": "https://github.com/lolerskatez/JellyfinOIDCPlugin/issues",
-    "documentation": "https://github.com/lolerskatez/JellyfinOIDCPlugin/blob/master/SETUP_GUIDE.md",
-    "downloads": [
+    "versions": [
       {
-        "url": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/publish/JellyfinOIDCPlugin.dll",
-        "targetAbi": "10.11.3.0",
-        "version": "1.0.0",
+        "version": "1.0.0.0",
         "changelog": "Jellyfin 10.11.3 compatible release with .NET 9 support, OIDC SSO authentication, automatic user creation, email linking, and role-based access control",
-        "checksum": "0633071106696764E620ABCE1AC8D514",
+        "targetAbi": "10.11.3.0",
+        "sourceUrl": "https://raw.githubusercontent.com/lolerskatez/JellyfinOIDCPlugin/master/JellyfinOIDCPlugin_1.0.0.0.zip",
+        "checksum": "acf61120dec3143e645c1445a811eaa0",
         "timestamp": "2025-12-17T04:00:00Z"
       }
     ]
