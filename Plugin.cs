@@ -31,7 +31,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             new PluginPageInfo
             {
                 Name = "OIDC Configuration",
-                EmbeddedResourcePath = "configurationpage.html",
+                EmbeddedResourcePath = "JellyfinOIDCPlugin.web.configurationpage.html",
                 DisplayName = "OIDC Authentication"
             }
         };
