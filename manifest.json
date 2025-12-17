@@ -6,6 +6,7 @@
     "targetAbi": "10.11.3.0",
     "assembly": "JellyfinOIDCPlugin.dll",
     "id": "jellyfin-oidc-auth",
+    "guid": "7f8b8d9e-1234-5678-90ab-cdef12345678",
     "author": "lolerskatez",
     "overview": "Enable Single Sign-On (SSO) for Jellyfin using any OpenID Connect provider. Automatically creates users from OIDC claims and assigns roles based on group membership.",
     "category": "Authentication",
