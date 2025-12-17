@@ -31,7 +31,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             new PluginPageInfo
             {
                 Name = "OIDC Configuration",
-                EmbeddedResourcePath = GetType().Namespace + ".web.configurationpage.html",
+                EmbeddedResourcePath = "configurationpage.html",
                 DisplayName = "OIDC Authentication"
             }
         };
